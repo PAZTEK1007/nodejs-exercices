@@ -1,4 +1,4 @@
-{ "name": "@paz_tek/CountryHolidays",
+{ "name": "@paz_tek/holidates",
   "version": "1.0.0",
   "bin": {
     "holidates": "./myNodeCLITool.js"
