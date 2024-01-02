@@ -8,24 +8,23 @@ module.exports = app => {
     let user;
     let username = req.body.username;
     let email    = req.query.email;
-
+  
     jsonfile.readFile(file_path, function(err, content) {
-      for (var i = content.length - 1; i >= 0; i--) {
-        if (content[i].email === req.query.email) {
-
+      for (let i = content.length - 1; i >= 0; i--) {
+        if (content[i].email === email) {
+  
           console.log("updated user " + req.query.email + " has now username : " + username);
-
+  
           user = content[i];
           user.username = username;
-          user.email = email;
-
+  
         }
       }
-
+  
       jsonfile.writeFile(file_path, content, function(err) {
         console.log(err);
       });
-
+  
     });
     res.send(user);
   });
