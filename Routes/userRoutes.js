@@ -17,6 +17,7 @@ module.exports = app => {
 
           user = content[i];
           user.username = username;
+          user.email = email;
 
         }
       }
@@ -83,19 +84,23 @@ module.exports = app => {
 
   app.post("/users/new", (req, res) => {
 
-    let { email, username } = req.body;
+    let email    = req.body.email;
+    let username = req.body.username;
 
     jsonfile.readFile(file_path, function(err, content) {
 
-      content.push({ email, username });
+      let user = {
+        email: email,
+        username: username
+      };
 
-      console.log("added " + email + "to DB");
+      content.push(user);
 
       jsonfile.writeFile(file_path, content, function(err) {
         console.log(err);
       });
 
-      res.sendStatus(200);
+      res.send(user);
     });
   });
 };
