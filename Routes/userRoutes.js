@@ -33,13 +33,12 @@ module.exports = app => {
   app.delete("/users/destroy", (req, res) => {
   
       let user;
-      let username = req.body.username;
       let email = req.body.email;
   
       jsonfile.readFile(file_path, function(err, content) {
         for (var i = content.length - 1; i >= 0; i--) {
           if (content[i].email === email) {
-            console.log("user: " + username + " has been deleted");
+            console.log("user: " + content[i].email + " has been deleted");
             user = content[i];
             content.splice(i, 1);
           }
