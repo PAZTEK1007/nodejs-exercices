@@ -31,26 +31,27 @@ module.exports = app => {
   });
 
   app.delete("/users/destroy", (req, res) => {
-
-    let email = req.body.email;
-
-    jsonfile.readFile(file_path, function(err, content) {
-
-      for (var i = content.length - 1; i >= 0; i--) {
-
-        if (content[i].email === email) {
-          console.log("removing " + content[i].email + "from DB");
-          content.pop(i);
+  
+      let user;
+      let username = req.body.username;
+      let email = req.body.email;
+  
+      jsonfile.readFile(file_path, function(err, content) {
+        for (var i = content.length - 1; i >= 0; i--) {
+          if (content[i].email === email) {
+            console.log("user: " + username + " has been deleted");
+            user = content[i];
+            content.splice(i, 1);
+          }
         }
-
-      }
-
-      jsonfile.writeFile(file_path, content, function(err) {
-        console.log(err);
+  
+        jsonfile.writeFile(file_path, content, function(err) {
+          console.log(err);
+        });
+  
       });
-
+  
       res.sendStatus(200);
-    });
   });
 
   app.get("/users", (req, res) => {
@@ -85,11 +86,11 @@ module.exports = app => {
   app.post('/users/new', (req, res) => {
     let { email, username } = req.body;
 
-    console.log("adding user " + username + " to DB");
+    console.log("Adding user: " + username);
 
     jsonfile.readFile(file_path, function(err, content) {
       content.push({username, email});
-      console.log('added' + username + 'to DB');
+      console.log('Added ' + username + ' to DB');
 
       jsonfile.writeFile(file_path, content, function(err) {
         console.log(err);
