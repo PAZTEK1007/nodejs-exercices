@@ -82,25 +82,26 @@ module.exports = app => {
     });
   });
 
-  app.post("/users/new", (req, res) => {
+  app.post('/users/new', (req, res) => {
+    let { email, username } = req.body;
 
-    let email    = req.body.email;
-    let username = req.body.username;
+    console.log("adding user " + username + " to DB");
 
     jsonfile.readFile(file_path, function(err, content) {
-
-      let user = {
-        email: email,
-        username: username
-      };
-
-      content.push(user);
+      content.push({username, email});
+      console.log('added' + username + 'to DB');
 
       jsonfile.writeFile(file_path, content, function(err) {
         console.log(err);
       });
 
-      res.send(user);
     });
+
+    res.sendStatus(200);
   });
 };
+
+
+
+
+
